@@ -20,6 +20,8 @@ let package = Package(
     ],
     dependencies: [
         .package(url: "https://github.com/apple/swift-syntax.git", from: "509.0.0"),
+        // https://github.com/pointfreeco/swift-macro-testing/releases
+        .package(url: "https://github.com/pointfreeco/swift-macro-testing", from: "0.5.1"),
     ],
     targets: [
         // Targets are the basic building blocks of a package, defining a module or a test suite.
@@ -45,6 +47,7 @@ let package = Package(
             dependencies: [
                 "UserDefaultsKeyMacros",
                 .product(name: "SwiftSyntaxMacrosTestSupport", package: "swift-syntax"),
+                .product(name: "MacroTesting", package: "swift-macro-testing"),
             ]
         ),
     ]
