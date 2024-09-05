@@ -63,6 +63,10 @@ struct Person {
 }
 ```
 
+## Sample Project
+
+[userdefaults\-key\-macro\-sample](https://github.com/pommdau/userdefaults-key-macro-sample/tree/main)
+
 ## Installation
 
 ### SPM
