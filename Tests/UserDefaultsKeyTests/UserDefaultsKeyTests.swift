@@ -6,35 +6,20 @@ import XCTest
 import MacroTesting // from: swift-macro-testing
 import UserDefaultsKeyMacros
 
-class StringifyTests: XCTestCase {
-    func testStringify() {
-        assertMacro(["stringify": StringifyMacro.self]) {
-//        assertMacro(["stringify": StringifyMacro.self], record: true) {  // デバッグ用(expansionが自動で更新される)
-            """
-            #stringify(a + b)
-            """
-        } expansion: {
-            """
-            (a + b, "a + b")
-            """
-        }
-    }
-}
-
 class UserDefaultsKeyTests: XCTestCase {
     func testUserDefaultsKey() {
-//        assertMacro(["UserDefaultsKey": UserDefaultsKeyMacro.self]) {
-        assertMacro(["UserDefaultsKey": UserDefaultsKeyMacro.self], record: true) {  // デバッグ用(expansionが自動で更新される)
+        assertMacro(["AddUserDefaultsKey": AddUserDefaultsKeyMacro.self]) {
+//        assertMacro(["AddUserDefaultsKey": AddUserDefaultsKeyMacro.self], record: true) {  // デバッグ用(expansionが自動で更新される)
             #"""
-            @UserDefaultsKey
+            @AddUserDefaultsKey
             struct Person {
-                @AppStorage(UserDefaultsProperty.firstName.key)
+                @AppStorage(UserDefaultsKey.firstName.key)
                 var firstName: String = "Taro"
                 
-                @AppStorage(UserDefaultsProperty.lastName.key)
+                @AppStorage(UserDefaultsKey.lastName.key)
                 var lastName: String = "Daniel"
 
-                @AppStorage(UserDefaultsProperty.age.key)
+                @AppStorage(UserDefaultsKey.age.key)
                 var age: Int = 20
 
                 var birthday: Date?
@@ -47,13 +32,13 @@ class UserDefaultsKeyTests: XCTestCase {
         } expansion: {
             #"""
             struct Person {
-                @AppStorage(UserDefaultsProperty.firstName.key)
+                @AppStorage(UserDefaultsKey.firstName.key)
                 var firstName: String = "Taro"
                 
-                @AppStorage(UserDefaultsProperty.lastName.key)
+                @AppStorage(UserDefaultsKey.lastName.key)
                 var lastName: String = "Daniel"
 
-                @AppStorage(UserDefaultsProperty.age.key)
+                @AppStorage(UserDefaultsKey.age.key)
                 var age: Int = 20
 
                 var birthday: Date?
@@ -68,7 +53,7 @@ class UserDefaultsKeyTests: XCTestCase {
                     case age = "Person_age"
                 }
 
-                func reset(of key: UserDefaultsProperty) {
+                func reset(of key: UserDefaultsKey) {
                     switch key {
                     case .firstName:
                         firstName = "Taro"
@@ -80,6 +65,24 @@ class UserDefaultsKeyTests: XCTestCase {
                 }
             }
             """#
+        }
+    }
+    
+    func testUserDefaultsKeyWithNoValidProperty() {
+        assertMacro(["AddUserDefaultsKey": AddUserDefaultsKeyMacro.self]) {
+//        assertMacro(["AddUserDefaultsKeyMacro": AddUserDefaultsKeyMacro.self], record: true) {  // デバッグ用(expansionが自動で更新される)
+            #"""
+            @AddUserDefaultsKey
+            struct Person {
+                let name: String
+            }
+            """#
+        } expansion: {
+            """
+            struct Person {
+                let name: String
+            }
+            """
         }
     }
 }

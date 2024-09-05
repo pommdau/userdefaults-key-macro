@@ -1,7 +1,14 @@
 import UserDefaultsKey
 import SwiftUI
 
-@UserDefaultsKey
+@AddUserDefaultsKey
+struct Hoge {
+    @AppStorage(UserDefaultsKey.firstName.rawValue)
+    var firstName: String = "Taro"
+//    var firstName: String
+}
+
+@AddUserDefaultsKey
 struct Person {
     @AppStorage(UserDefaultsKey.firstName.rawValue)
     var firstName: String = "Taro"
