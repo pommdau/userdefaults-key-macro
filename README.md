@@ -77,3 +77,11 @@ Go to File > `Add Package Dependencies...` and paste the repo's URL:
 ```
 https://github.com/pommdau/userdefaults-key-macro
 ```
+## Known Issues
+- The type inference is not supported.
+- For example, the following code will fail to build
+
+```swift
+@AppStorage(UserDefaultsKey.firstName.key)
+var firstName = "Taro"
+```
