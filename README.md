@@ -1,5 +1,5 @@
 # UserDefaultsKey
-- Swift Macros creating UserDefaults-Key and reset-func for @AppStorage
+Swift Macros creating UserDefaults-Key and reset-func for `@AppStorage`
 
 ## Usage
 
