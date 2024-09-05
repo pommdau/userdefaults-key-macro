@@ -23,62 +23,59 @@ class StringifyTests: XCTestCase {
 
 class UserDefaultsKeyTests: XCTestCase {
     func testUserDefaultsKey() {
-        assertMacro(["UserDefaultsKey": UserDefaultsKeyMacro.self]) {
-//        assertMacro(["UserDefaultsKey": UserDefaultsKeyMacro.self], record: true) {  // デバッグ用(expansionが自動で更新される)
-            """
+//        assertMacro(["UserDefaultsKey": UserDefaultsKeyMacro.self]) {
+        assertMacro(["UserDefaultsKey": UserDefaultsKeyMacro.self], record: true) {  // デバッグ用(expansionが自動で更新される)
+            #"""
             @UserDefaultsKey
             struct Person {
-                @AppStorage(UserDefaultsProperty.name.key)
-                var name: String = "John"
-            
+                @AppStorage(UserDefaultsProperty.firstName.key)
+                var firstName: String = "Taro"
+                
+                @AppStorage(UserDefaultsProperty.lastName.key)
+                var lastName: String = "Daniel"
+
                 @AppStorage(UserDefaultsProperty.age.key)
-                var age: Int = 0
-            
-                @AppStorage(UserDefaultsProperty.tax.key)
-                var tax: Double = 0.1
-            
+                var age: Int = 20
+
                 var birthday: Date?
-            
-                var agePlus100: Int {
-                    return age + 100
+                
+                var fullName: String {
+                    return "\(lastName) \(firstName)"
                 }
             }
-            """
+            """#
         } expansion: {
             #"""
             struct Person {
-                @AppStorage(UserDefaultsProperty.name.key)
-                var name: String = "John"
+                @AppStorage(UserDefaultsProperty.firstName.key)
+                var firstName: String = "Taro"
+                
+                @AppStorage(UserDefaultsProperty.lastName.key)
+                var lastName: String = "Daniel"
 
                 @AppStorage(UserDefaultsProperty.age.key)
-                var age: Int = 0
-
-                @AppStorage(UserDefaultsProperty.tax.key)
-                var tax: Double = 0.1
+                var age: Int = 20
 
                 var birthday: Date?
-
-                var agePlus100: Int {
-                    return age + 100
+                
+                var fullName: String {
+                    return "\(lastName) \(firstName)"
                 }
 
-                enum UserDefaultsProperty: String, CaseIterable {
-                    case name
-                    case age
-                    case tax
-                    var key: String {
-                        return "Person_\(rawValue)"
-                    }
+                enum UserDefaultsKey: String, CaseIterable {
+                    case firstName = "Person_firstName"
+                    case lastName = "Person_lastName"
+                    case age = "Person_age"
                 }
 
                 func reset(of key: UserDefaultsProperty) {
                     switch key {
-                    case .name:
-                        name = "John"
+                    case .firstName:
+                        firstName = "Taro"
+                    case .lastName:
+                        lastName = "Daniel"
                     case .age:
-                        age = 0
-                    case .tax:
-                        tax = 0.1
+                        age = 20
                     }
                 }
             }

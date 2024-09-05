@@ -34,7 +34,7 @@ enum UserDefaultsKeyError: CustomStringConvertible, Error {
     var description: String {
         switch self {
         case .classIncompatible:
-            return "@AddUserDefaultsProperty can only be applied to Actor/Class/Struct"
+            return "@UserDefaultsKey can only be applied to Actor/Class/Struct"
         case .unknown(let message):
             return "Unknown Error: \(message)"
         }
@@ -178,20 +178,13 @@ public struct UserDefaultsKeyMacro: MemberMacro {
             return .init(pattern: pattern, typeAnnotation: typeAnnotation, initializer: initializer)
         }
         
-        let enumSyntax = try EnumDeclSyntax("enum UserDefaultsProperty: String, CaseIterable") {
+        let enumSyntax = try EnumDeclSyntax("enum UserDefaultsKey: String, CaseIterable") {
             for variableDecl in variableDecls {
-                try EnumCaseDeclSyntax("case \(variableDecl.pattern) ")
-            }
-            
-            try VariableDeclSyntax("var key: String") {
-                ReturnStmtSyntax(
-                    returnKeyword: .keyword(.return, trailingTrivia: .space),
-                    expression: "\"\(raw: className)_\\(rawValue)\"" as ExprSyntax
-                )
+                try EnumCaseDeclSyntax("case \(variableDecl.pattern) = \"\(raw: className)_\(variableDecl.pattern)\" ")
             }
         }
         
-        let resetSyntax = try FunctionDeclSyntax("func reset(of key: UserDefaultsProperty)") {
+        let resetSyntax = try FunctionDeclSyntax("func reset(of key: UserDefaultsKey)") {
             try SwitchExprSyntax("switch key") {
                 SwitchCaseListSyntax {
                     for element in variableDecls {

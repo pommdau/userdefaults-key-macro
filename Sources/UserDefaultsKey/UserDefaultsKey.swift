@@ -12,5 +12,5 @@ public macro stringify<T>(_ value: T) -> (T, String) = #externalMacro(module: "U
 
 /// AppStorageで利用するキーを作成するマクロ
 /// またデフォルト値にリセットするための関数を追加
-@attached(member, names: named(UserDefaultsProperty), named(reset))
+@attached(member, names: named(UserDefaultsKey), named(reset))
 public macro UserDefaultsKey() = #externalMacro(module: "UserDefaultsKeyMacros", type: "UserDefaultsKeyMacro")
