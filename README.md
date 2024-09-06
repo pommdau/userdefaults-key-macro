@@ -29,13 +29,13 @@ Expanded source:
 
 ```swift
 struct Person {
-    @AppStorage(UserDefaultsKey.firstName.key)
+    @AppStorage(UserDefaultsKey.firstName.rawValue)
     var firstName: String = "Taro"
     
-    @AppStorage(UserDefaultsKey.lastName.key)
+    @AppStorage(UserDefaultsKey.lastName.rawValue)
     var lastName: String = "Daniel"
 
-    @AppStorage(UserDefaultsKey.age.key)
+    @AppStorage(UserDefaultsKey.age.rawValue)
     var age: Int = 20
 
     var birthday: Date?
