@@ -6,6 +6,7 @@ Swift Macros creating UserDefaults-Key and reset-func for `@AppStorage`
 Source code:
 
 ```swift
+import SwiftUI
 import UserDefaultsKey
 
 @AddUserDefaultsKey
